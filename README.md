@@ -79,6 +79,18 @@ der Stand, der eigentlich gerade gültig wäre.
 **Wieder freischalten:** `LOCKDOWN.enabled` in `js/app.js` auf `false`
 setzen (oder `afterLevelId` auf ein späteres Log ändern), committen, pushen.
 
+## Cache-Busting bei Updates
+
+Sobald jemand die Seite einmal geöffnet hat, kann der Browser `css/style.css`,
+`js/levels.js` und `js/app.js` cachen. Pusht du danach eine Änderung an
+diesen Dateien, sieht das Gerät ohne Weiteres evtl. noch die alte Version.
+
+Deshalb hängt `index.html` an allen drei ein `?v=1` an. **Nach jedem Push,
+der `app.js`, `levels.js` oder `style.css` ändert, diese Zahl in
+`index.html` um 1 erhöhen** (an allen drei Stellen) — das zwingt jeden
+Browser, die Datei neu zu laden, statt eine alte Kopie zu verwenden. Kein
+manuelles Cache-Leeren auf ihrer Seite nötig.
+
 ## Wiederherstellungscode (Save Code)
 
 Unten auf jedem Log-Screen steht ein 6-stelliger `SAVE CODE`. Er ist rein
