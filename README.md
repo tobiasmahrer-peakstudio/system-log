@@ -52,6 +52,31 @@ Optional, für ein eingebettetes Formular statt E-Mail: [Formspree](https://form
    sie überhaupt an diesem Level ankommt. Du gibst den Code erst frei, wenn
    der Nachweis stimmt — technisch ist er aber schon "im System".
 
+## Zeitsperre zwischen Logs (Countdown)
+
+Nach jedem gelösten Log erscheint ein "SYSTEM LOG // STANDBY"-Countdown
+(~4 Tage, live tickend), bevor das nächste Log sichtbar wird — so kann die
+Kette nicht an einem Abend durchgespielt werden. Ausnahme: der Übergang zu
+LOG 010 (Finale) ignoriert diese relative 4-Tage-Regel und ist stattdessen
+fix auf **3. Oktober 2026, 00:00 Uhr** gesetzt (`FINALE_UNLOCK_AT` in
+`js/app.js`) — die grosse Auflösung landet also immer am Hochzeitstag,
+unabhängig davon, wie schnell oder langsam sie durch den Rest der Kette
+kommt.
+
+Zum Anpassen: `COUNTDOWN_MS` (Standard 4 Tage) bzw. `FINALE_UNLOCK_AT` ganz
+oben in `js/app.js`.
+
+## Wiederherstellungscode (Save Code)
+
+Unten auf jedem Log-Screen steht ein 6-stelliger `SAVE CODE`. Er ist rein
+deterministisch aus der Log-ID abgeleitet (kein Zufall, keine Server-
+Speicherung) — bleibt also für ein bestimmtes Log immer gleich und
+funktioniert auf jedem Gerät/Browser. Verliert sie ihren Fortschritt
+(Cache gelöscht, anderes Gerät), klickt sie auf "» Code eingeben" und trägt
+den zuletzt notierten Code ein — das setzt sie exakt auf das Log zurück, zu
+dem der Code gehört, und überspringt einen dort evtl. laufenden Countdown
+(da dieses Log ja bereits einmal freigeschaltet war).
+
 ## Hosting (kostenlos, in Minuten)
 
 **GitHub Pages:**

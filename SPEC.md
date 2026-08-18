@@ -50,6 +50,17 @@ dort) → am Folgetag Gipfelaufstieg Wildstrubel → zurück nach Lenk.
   Optional: auf Formspree/Google-Form umstellen (siehe README), wenn ein
   eingebettetes Formular gewünscht ist — funktional nicht nötig.
 - Hilfsskript `scripts/hash.js` zum Erzeugen von Lösungs-Hashes.
+- **Zeitsperre zwischen Logs:** nach jedem gelösten Log ein live tickender
+  "SYSTEM LOG // STANDBY"-Countdown (~4 Tage, `COUNTDOWN_MS` in `js/app.js`),
+  bevor das nächste Log erscheint — verhindert, dass die ganze Kette an
+  einem Abend durchgespielt wird. Der Übergang zu LOG 010 ist davon
+  ausgenommen: fix auf `FINALE_UNLOCK_AT` = 3.10.2026 00:00 Uhr gesetzt, egal
+  wie schnell/langsam der Rest ging.
+- **Wiederherstellungscode (Save Code):** deterministisch aus der Log-ID
+  abgeleiteter 6-stelliger Code, sichtbar unten auf jedem Screen. Funktioniert
+  geräteunabhängig (kein Server, kein Zufall) — bei Cache-Verlust oder
+  Gerätewechsel über "» Code eingeben" wieder einsteigen, ohne einen dort
+  evtl. laufenden Countdown erneut abwarten zu müssen.
 
 ## Zeitplan (Vorschlag, ~1 Log/Woche, 18.8. → 3.10.2026)
 

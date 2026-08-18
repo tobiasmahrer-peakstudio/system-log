@@ -160,6 +160,29 @@ html, body {
   margin-top: 10px;
 }
 
+#recovery-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--fg-dim);
+  color: var(--fg-dim);
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+
+#recovery-code { color: var(--fg); }
+
+#restore-link {
+  color: var(--fg-dim);
+  text-decoration: underline;
+}
+
+#restore-link:hover { color: var(--amber); }
+
 .cursor::after {
   content: '_';
   animation: blink 1s step-start infinite;
