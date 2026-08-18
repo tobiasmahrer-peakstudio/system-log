@@ -13,6 +13,29 @@ const STORAGE_KEY = "wildstrubel_arg_progress";
 const COUNTDOWN_MS = 4 * 24 * 60 * 60 * 1000;
 const FINALE_UNLOCK_AT = new Date("2026-10-03T00:00:00").getTime();
 
+// Manual kill switch: everything AFTER this log ID is taken fully offline
+// (no countdown, no content, no recovery bar) until this is set back to
+// `enabled: false`. Progress already made keeps advancing normally in the
+// background (real-life codes still work, countdowns still tick) — this
+// only overrides what gets *displayed*, so re-enabling later resumes
+// exactly where things actually stood.
+const LOCKDOWN = {
+  enabled: true,
+  afterLevelId: "003",
+  header: "SYSTEM LOG // ERROR",
+  message:
+`GERÄTE-MISMATCH ERKANNT.
+
+DIESES SYSTEM WURDE FÜR EINEN ANDEREN SPIELER KALIBRIERT.
+DEINE SESSION IST UNGÜLTIG.
+
+>> NÄCHSTES LEVEL ERFORDERT: 100 KM AKTIVITÄTS-NACHWEIS
+>> PARAMETER AUSSERHALB DES ZULÄSSIGEN BEREICHS
+
+STATUS: SYSTEM OFFLINE
+KEINE WEITERE INTERAKTION MÖGLICH.`,
+};
+
 async function sha256(text) {
   const enc = new TextEncoder().encode(text);
   const buf = await crypto.subtle.digest("SHA-256", enc);
@@ -153,10 +176,22 @@ function renderCurrentLevel() {
   const reallifeBlock = document.getElementById("reallife-block");
   const feedback = document.getElementById("feedback");
   const input = document.getElementById("solution-input");
+  const recoveryBar = document.getElementById("recovery-bar");
 
   feedback.textContent = "";
   feedback.className = "feedback";
   input.value = "";
+
+  const lockIndex = LEVELS.findIndex((l) => l.id === LOCKDOWN.afterLevelId);
+  if (LOCKDOWN.enabled && progress.levelIndex > lockIndex) {
+    headerLog.textContent = LOCKDOWN.header;
+    logBody.textContent = LOCKDOWN.message;
+    inputRow.classList.add("hidden");
+    reallifeBlock.classList.add("hidden");
+    recoveryBar.classList.add("hidden");
+    return;
+  }
+  recoveryBar.classList.remove("hidden");
 
   if (!level) {
     const finalLevel = LEVELS[LEVELS.length - 1];

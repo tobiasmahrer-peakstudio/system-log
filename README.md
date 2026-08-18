@@ -66,6 +66,19 @@ kommt.
 Zum Anpassen: `COUNTDOWN_MS` (Standard 4 Tage) bzw. `FINALE_UNLOCK_AT` ganz
 oben in `js/app.js`.
 
+## Manuelle Komplettsperre (LOCKDOWN)
+
+`LOCKDOWN` in `js/app.js` blockiert alles NACH einem bestimmten Log
+komplett (keine Eingabe, kein Countdown, kein Save-Code-Bereich) und zeigt
+stattdessen eine Fehlermeldung. Aktuell aktiv: alles nach LOG 003 ist
+offline. Der Fortschritt im Hintergrund läuft normal weiter (Freischalt-
+codes funktionieren, Countdowns laufen), es wird nur nichts davon
+angezeigt — sobald die Sperre aufgehoben wird, erscheint automatisch genau
+der Stand, der eigentlich gerade gültig wäre.
+
+**Wieder freischalten:** `LOCKDOWN.enabled` in `js/app.js` auf `false`
+setzen (oder `afterLevelId` auf ein späteres Log ändern), committen, pushen.
+
 ## Wiederherstellungscode (Save Code)
 
 Unten auf jedem Log-Screen steht ein 6-stelliger `SAVE CODE`. Er ist rein
