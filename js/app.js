@@ -176,6 +176,7 @@ function renderCurrentLevel() {
   const feedback = document.getElementById("feedback");
   const input = document.getElementById("solution-input");
   const recoveryBar = document.getElementById("recovery-bar");
+  const lockdownMedia = document.getElementById("lockdown-media");
 
   feedback.textContent = "";
   feedback.className = "feedback";
@@ -188,9 +189,11 @@ function renderCurrentLevel() {
     inputRow.classList.add("hidden");
     reallifeBlock.classList.add("hidden");
     recoveryBar.classList.add("hidden");
+    lockdownMedia.classList.remove("hidden");
     return;
   }
   recoveryBar.classList.remove("hidden");
+  lockdownMedia.classList.add("hidden");
 
   if (!level) {
     const finalLevel = LEVELS[LEVELS.length - 1];

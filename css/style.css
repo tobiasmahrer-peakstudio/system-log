@@ -160,6 +160,28 @@ html, body {
   margin-top: 10px;
 }
 
+.lockdown-media {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.lockdown-sticker {
+  width: 130px;
+  height: auto;
+  filter: drop-shadow(0 0 10px rgba(63, 240, 123, 0.25));
+}
+
+.lockdown-photo {
+  flex: 1 1 160px;
+  max-width: 220px;
+  height: auto;
+  border: 1px solid var(--fg-dim);
+  filter: grayscale(0.3) contrast(1.05);
+}
+
 #recovery-bar {
   display: flex;
   flex-wrap: wrap;
