@@ -70,14 +70,21 @@ oben in `js/app.js`.
 
 `LOCKDOWN` in `js/app.js` blockiert alles NACH einem bestimmten Log
 komplett (keine Eingabe, kein Countdown, kein Save-Code-Bereich) und zeigt
-stattdessen eine Fehlermeldung. Aktuell aktiv: alles nach LOG 003 ist
-offline. Der Fortschritt im Hintergrund läuft normal weiter (Freischalt-
-codes funktionieren, Countdowns laufen), es wird nur nichts davon
-angezeigt — sobald die Sperre aufgehoben wird, erscheint automatisch genau
-der Stand, der eigentlich gerade gültig wäre.
+stattdessen eine Fehlermeldung (aktuell: der "100 KM"-Witz samt Sticker und
+Dani-Foto). **Aktuell aktiv** (`enabled: true`), ab LOG 003.
 
-**Wieder freischalten:** `LOCKDOWN.enabled` in `js/app.js` auf `false`
-setzen (oder `afterLevelId` auf ein späteres Log ändern), committen, pushen.
+**Ausstieg über einen echten Button, nicht per Codeänderung:** Der
+Lockdown-Screen hat einen Button ("» ICH HABE DIE 100 KM WIRKLICH GEMACHT").
+Klick darauf blendet eine kurze Bestätigung ein und schaltet die Sperre nur
+für diesen Browser dauerhaft ab (`localStorage`-Flag
+`wildstrubel_lockdown_bypass_<afterLevelId>`) — man landet danach exakt im
+echten, ungelösten Level (z.B. LOG 004), das ganz normal gelöst werden
+muss. Es wird KEIN Rätsel übersprungen, nur die Sperre selbst geöffnet.
+
+**Komplett deaktivieren** (z.B. für alle, nicht nur den, der den Button
+klickt): `LOCKDOWN.enabled` in `js/app.js` auf `false` setzen, committen,
+pushen. **Neu/anders sperren:** `afterLevelId` ändern — jeder neue Wert
+bekommt automatisch sein eigenes, noch ungeklicktes Bypass-Flag.
 
 ## Cache-Busting bei Updates
 

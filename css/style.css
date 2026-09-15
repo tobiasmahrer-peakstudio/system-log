@@ -160,6 +160,24 @@ html, body {
   margin-top: 10px;
 }
 
+.lockdown-continue {
+  margin-top: 14px;
+}
+
+#lockdown-continue-btn {
+  background: transparent;
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  font-family: inherit;
+  font-size: 12px;
+  padding: 8px 12px;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+#lockdown-continue-btn:hover { background: var(--amber); color: #000; }
+#lockdown-continue-btn:disabled { opacity: 0.5; cursor: default; }
+
 .lockdown-media {
   display: flex;
   flex-wrap: wrap;

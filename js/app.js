@@ -32,8 +32,17 @@ DIESES SYSTEM WURDE FÜR GEWINNER PROGRAMMIERT. WENN DU EINE LÜCKE FINDEST, SOL
 >> PARAMETER AUSSERHALB DES ZULÄSSIGEN BEREICHS
 
 STATUS: SYSTEM OFFLINE
-KEINE WEITERE INTERAKTION MÖGLICH.`,
+KEINE WEITERE INTERAKTION MÖGLICH — AUSSER DU KANNST ES BEWEISEN.`,
+  continueButtonText: "» ICH HABE DIE 100 KM WIRKLICH GEMACHT",
+  continueFeedback: "NACHWEIS AKZEPTIERT. GRATULIERE — WEITER GEHT'S.",
 };
+
+// Per-browser, per-checkpoint: once clicked, this specific lockdown stays
+// open on this device (doesn't re-lock on reload). A future re-lock with a
+// different `afterLevelId` gets its own fresh bypass key automatically.
+function lockdownBypassKey() {
+  return `wildstrubel_lockdown_bypass_${LOCKDOWN.afterLevelId}`;
+}
 
 async function sha256(text) {
   const enc = new TextEncoder().encode(text);
@@ -177,23 +186,28 @@ function renderCurrentLevel() {
   const input = document.getElementById("solution-input");
   const recoveryBar = document.getElementById("recovery-bar");
   const lockdownMedia = document.getElementById("lockdown-media");
+  const lockdownContinue = document.getElementById("lockdown-continue");
 
   feedback.textContent = "";
   feedback.className = "feedback";
   input.value = "";
 
   const lockIndex = LEVELS.findIndex((l) => l.id === LOCKDOWN.afterLevelId);
-  if (LOCKDOWN.enabled && progress.levelIndex > lockIndex) {
+  const bypassed = localStorage.getItem(lockdownBypassKey()) === "true";
+  if (LOCKDOWN.enabled && progress.levelIndex > lockIndex && !bypassed) {
     headerLog.textContent = LOCKDOWN.header;
     logBody.textContent = LOCKDOWN.message;
     inputRow.classList.add("hidden");
     reallifeBlock.classList.add("hidden");
     recoveryBar.classList.add("hidden");
     lockdownMedia.classList.remove("hidden");
+    lockdownContinue.classList.remove("hidden");
+    document.getElementById("lockdown-continue-btn").textContent = LOCKDOWN.continueButtonText;
     return;
   }
   recoveryBar.classList.remove("hidden");
   lockdownMedia.classList.add("hidden");
+  lockdownContinue.classList.add("hidden");
 
   if (!level) {
     const finalLevel = LEVELS[LEVELS.length - 1];
@@ -248,6 +262,36 @@ function renderCurrentLevel() {
   updateRecoveryDisplay();
 }
 
+function grantSuccess(level, progress, feedbackText) {
+  const feedback = document.getElementById("feedback");
+  feedback.textContent = feedbackText;
+  feedback.className = "feedback success";
+
+  if (level.onSuccessAppend) {
+    const logBody = document.getElementById("log-body");
+    logBody.textContent += "\n" + level.onSuccessAppend;
+  }
+
+  const isLastLevel = progress.levelIndex === LEVELS.length - 1;
+  if (isLastLevel) {
+    // Keep the finale reveal on screen instead of auto-advancing it away.
+    saveProgress({ levelIndex: LEVELS.length });
+    document.getElementById("input-row").classList.add("hidden");
+    updateRecoveryDisplay();
+  } else {
+    setTimeout(() => {
+      const nextIndex = progress.levelIndex + 1;
+      const nextLevel = LEVELS[nextIndex];
+      const unlockAt =
+        nextLevel && nextLevel.id === "010"
+          ? FINALE_UNLOCK_AT
+          : Date.now() + COUNTDOWN_MS;
+      saveProgress({ levelIndex: nextIndex, unlockAt });
+      renderCurrentLevel();
+    }, 1400);
+  }
+}
+
 async function handleSubmit() {
   const progress = getProgress();
   const level = LEVELS[progress.levelIndex];
@@ -262,36 +306,27 @@ async function handleSubmit() {
   const hash = await sha256(answer);
 
   if (hash === level.solutionHash) {
-    feedback.textContent = "ACCESS GRANTED.";
-    feedback.className = "feedback success";
-
-    if (level.onSuccessAppend) {
-      const logBody = document.getElementById("log-body");
-      logBody.textContent += "\n" + level.onSuccessAppend;
-    }
-
-    const isLastLevel = progress.levelIndex === LEVELS.length - 1;
-    if (isLastLevel) {
-      // Keep the finale reveal on screen instead of auto-advancing it away.
-      saveProgress({ levelIndex: LEVELS.length });
-      document.getElementById("input-row").classList.add("hidden");
-      updateRecoveryDisplay();
-    } else {
-      setTimeout(() => {
-        const nextIndex = progress.levelIndex + 1;
-        const nextLevel = LEVELS[nextIndex];
-        const unlockAt =
-          nextLevel && nextLevel.id === "010"
-            ? FINALE_UNLOCK_AT
-            : Date.now() + COUNTDOWN_MS;
-        saveProgress({ levelIndex: nextIndex, unlockAt });
-        renderCurrentLevel();
-      }, 1400);
-    }
+    grantSuccess(level, progress, "ACCESS GRANTED.");
   } else {
     feedback.textContent = "ACCESS DENIED — SOLUTION INCORRECT.";
     feedback.className = "feedback error";
   }
+}
+
+function handleLockdownContinue() {
+  const feedback = document.getElementById("feedback");
+  const btn = document.getElementById("lockdown-continue-btn");
+  feedback.textContent = LOCKDOWN.continueFeedback;
+  feedback.className = "feedback success";
+  btn.disabled = true;
+
+  // Same rhythm as a correct answer: flash the confirmation, then reveal
+  // the real (still unsolved) level underneath — no puzzle is skipped.
+  setTimeout(() => {
+    localStorage.setItem(lockdownBypassKey(), "true");
+    btn.disabled = false;
+    renderCurrentLevel();
+  }, 1400);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -300,6 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("solution-input").addEventListener("keydown", (e) => {
     if (e.key === "Enter") handleSubmit();
   });
+  document.getElementById("lockdown-continue-btn").addEventListener("click", handleLockdownContinue);
 
   document.getElementById("restore-link").addEventListener("click", async (e) => {
     e.preventDefault();
