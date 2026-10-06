@@ -233,42 +233,24 @@ FRAGMENT A: FRAG17
 FRAGMENT B: FRAGB29
 VERIFIKATION: 34 — PASSED
 
->> REKONSTRUIERE KOORDINATEN AUS FRAGMENTEN...
->> LAT 46°24'N   LON 7°32'E
->> ABGLEICH MIT ALPIN-DATENBANK...
+>> ALLE FRAGMENTE DEKODIERT
+>> ALLE OBJEKTIVE BESTÄTIGT
+>> ZIEL-DATEN VERSCHLÜSSELT — ÜBERGABE AUSSERHALB DIESES SYSTEMS
 
-ZIEL IDENTIFIZIERT: WILDSTRUBEL (3243M)
-SECONDARY OBJECTIVE: WILDSTRUBELHÜTTE (ÜBERNACHTUNG)
-
->> ROUTE RECONSTRUCTION COMPLETE
-
-  LENK
-  -> AUFSTIEG ZUR WILDSTRUBELHÜTTE (ÜBERNACHTUNG)
-  -> GIPFELAUFSTIEG WILDSTRUBEL (3243M)
-  -> ABSTIEG -> LENK
-
->> MISSION SCHEDULED FOR: 2027
->> EXAKTES DATUM: NOCH OFFEN
-
-DIES IST EIN GESCHENK — KEINE SOFORTIGE AKTION ERFORDERLICH.
+DIESE KETTE ENDET HIER.
 
 TIPPE "ACCEPTED" UM DIE ÜBERTRAGUNG ABZUSCHLIESSEN.`,
     solutionHash: "25ab960d578e9fb9c7cb17ddbf211f8188564f13e24e64ad515b1a22cbf51f1c",
     onSuccessAppend:
 `
 >> TRANSMISSION COMPLETE.
+>> SYSTEM LOG BEENDET.
 
-Diese ganze Kette war der Weg zu einem Ziel: dem Wildstrubel.
+Ihr habt es geschafft — die gesamte Kette ist gelöst.
 
-Wanderung ab Lenk, Aufstieg zur Wildstrubelhütte, Übernachtung dort,
-am nächsten Tag der Gipfelaufstieg auf den Wildstrubel (3243m),
-und zurück nach Lenk.
+Das eigentliche Ziel wird euch nicht hier angezeigt, sondern
+persönlich übergeben.
 
-Es steht noch kein genaues Datum fest — die Tour selbst findet
-2027 statt. Dieses System hatte nur eine Aufgabe: euch das Ziel
-rechtzeitig zur Hochzeit zu übergeben.
-
-MISSION SCHEDULED FOR: 2027
 END OF LOG.`
   },
 

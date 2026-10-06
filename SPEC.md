@@ -33,6 +33,17 @@ dort) → am Folgetag Gipfelaufstieg Wildstrubel → zurück nach Lenk.
   gelöst und übergeben worden (Stand: heute). Die Website übernimmt ab
   LOG 002.
 
+## UPDATE (6.10.2026) — Physische statt digitaler Auflösung
+
+**Design-Entscheidung geändert:** LOG 010 verrät NICHT MEHR Bergname,
+Hüttenname, Route oder das 2027-Timing digital. Der Finale-Screen bestätigt
+nur noch, dass die gesamte Kette gelöst ist ("DIESE KETTE ENDET HIER."),
+ohne zu sagen wofür. Die eigentliche Auflösung (Wildstrubel, Hütte, Route,
+2027) wird stattdessen **persönlich als physisches Geschenk übergeben**
+(z.B. eine Karte/Box). Betrifft nur `js/levels.js` LOG 010 (`body` und
+`onSuccessAppend`) — der Rest der Kette (LOG 002–009) war ohnehin schon so
+gebaut, dass nichts vor LOG 010 verraten wird.
+
 ## Bereits umgesetzt (dieses Repo)
 
 - Terminal-Style-Engine (Boot-Sequenz, Log-Anzeige, Eingabefeld,
@@ -74,7 +85,7 @@ Reallife-Level bewusst nicht in die letzte Woche gelegt (Wetter-/Terminpuffer).
 | 8.9. – 14.9.   | LOG 006 (Real-Life, zu zweit — früh genug für Puffer) |
 | 15.9. – 21.9.  | LOG 007 (Fragment B, Decoy/Prüfsumme)     |
 | 22.9. – 28.9.  | LOG 008 (Verifikationscode)               |
-| 29.9. – 2.10.  | LOG 009 (Hütten-Kategorie-Teaser) → LOG 010 (Finale mit vollständiger Auflösung, spätestens 2.10., einen Tag vor der Hochzeit) |
+| 29.9. – 2.10.  | LOG 009 (Hütten-Kategorie-Teaser) → LOG 010 (Finale-Bestätigung, keine digitale Auflösung mehr — siehe UPDATE 6.10.2026) |
 
 Freischaltung z.B. durch Ändern von `progress.levelIndex` bzw. schlicht durch
 Bekanntgabe "Log X ist jetzt online" ist nicht nötig — alle Level sind bereits
@@ -122,8 +133,11 @@ kombiniert/aus früheren Logs abgeleitet werden (Quersumme von
 - **LOG 003** (Real-Life) — 3 km Lauf/Spaziergang, Foto-Nachweis,
   Freischaltcode `SENSOR-OK-19` nach Prüfung. Erfolg liefert
   `PARAMETER X = 3243` (bewusst neutral benannt, keine Höhenangabe).
-- **LOG 004** — Mathe-Cross-Check (Summe 1–80 + 3), bestätigt `3243`
-  unabhängig ein zweites Mal.
+- **LOG 004** — Bewusst mühsamer Mathe-Cross-Check (58er-Gauss-Summe + zwei
+  Potenzen + Kubik-Differenz + Produkt, siehe `js/levels.js`), bestätigt
+  `3243` unabhängig ein zweites Mal. Hat zusätzlich einen "Weiter ohne
+  Rätsel"-Ausstiegsknopf vom LOCKDOWN-Screen davor (siehe unten) — löst das
+  Level aber nicht automatisch, nur die Sperre selbst.
 - **LOG 005** — Binary → ASCII → Caesar-Shift, wobei der Shift selbst erst
   über die Quersumme von `PARAMETER X` (3+2+4+3=12) hergeleitet werden muss
   (Cross-Referencing zu LOG 003/004). Ergebnis: abstrakter Code `FRAG17`.
@@ -139,12 +153,11 @@ kombiniert/aus früheren Logs abgeleitet werden (Quersumme von
   Standortinfo.
 - **LOG 009** — Reverse-Anagramm liefert nur die generische Kategorie
   `BERGHUETTE` (Übernachtung) — noch nicht der konkrete Name.
-- **LOG 010 (Finale)** — Fragmente werden erstmals zu echten Koordinaten
-  (46°24'N 7°32'E) zusammengeführt, **hier zum ersten Mal** Bergname
-  (`WILDSTRUBEL`) + Hüttenname (`WILDSTRUBELHÜTTE`) + Route (Lenk → Hütte →
-  Gipfel → Lenk) + **klarer Hinweis, dass die Durchführung für 2027 geplant
-  ist** (`MISSION SCHEDULED FOR: 2027`). Timing: fertig/übergeben spätestens
-  3.10.2026 (Hochzeit).
+- **LOG 010 (Finale)** — *(Stand 6.10.2026, siehe UPDATE oben)* bestätigt nur
+  noch "DIESE KETTE ENDET HIER" + `ACCEPTED` zum Abschluss — **keine**
+  digitale Auflösung mehr (kein Bergname, keine Hütte, keine Route, kein
+  2027-Hinweis). Die Auflösung erfolgt persönlich über ein physisches
+  Geschenk.
 
 ## Offene Fragen an Tobias (falls noch nicht geklärt)
 
